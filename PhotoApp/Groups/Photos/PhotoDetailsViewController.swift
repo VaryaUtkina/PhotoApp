@@ -110,8 +110,8 @@ final class PhotoDetailsViewController: UIViewController {
         likeLabel.text = "\(photoInfo.likes) likes"
         likeIcon.tintColor = .red
         nameLabel.text = "Photographer: \(photoInfo.user.name)"
-        bioLabel.text = "\(photoInfo.user.bio ?? ""))"
-        locationLabel.text = "Location: \(photoInfo.user.location ?? ""))"
+        bioLabel.text = "\(photoInfo.user.bio ?? "")"
+        locationLabel.text = "Location: \(photoInfo.user.location ?? "")"
         linkLabel.text = "\(photoInfo.user.links.html)"
         super.init(nibName: nil, bundle: nil)
     }
@@ -169,8 +169,7 @@ final class PhotoDetailsViewController: UIViewController {
     
     // MARK: - Layout
     private func setupConstraints() {
-        let photoWidth = UIScreen.main.bounds.width - 2 * Drawing.horizontalInset
-        let photoHeight = ceil(photoWidth / Drawing.photoHightToWidthDivider)
+        let photoHeight = ceil(UIScreen.main.bounds.height / Drawing.photoHightToWidthDivider)
         
         shadowView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(Drawing.topInset)
