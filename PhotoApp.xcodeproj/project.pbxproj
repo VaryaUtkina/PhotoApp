@@ -6,8 +6,23 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		48F53F4A2DDC6CEF00786899 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 48F53F492DDC6CEF00786899 /* SnapKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		48C421572DEB09AA006BB30B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 48B11DDC2DDB0F080001A713 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48B11DE32DDB0F080001A713;
+			remoteInfo = PhotoApp;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		48B11DE42DDB0F080001A713 /* PhotoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		48C421502DEB077C006BB30B /* PhotoAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -29,10 +44,23 @@
 			path = PhotoApp;
 			sourceTree = "<group>";
 		};
+		48C421512DEB077D006BB30B /* PhotoAppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PhotoAppTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		48B11DE12DDB0F080001A713 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48F53F4A2DDC6CEF00786899 /* SnapKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48C4214D2DEB077C006BB30B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -46,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				48B11DE62DDB0F080001A713 /* PhotoApp */,
+				48C421512DEB077D006BB30B /* PhotoAppTests */,
 				48B11DE52DDB0F080001A713 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				48B11DE42DDB0F080001A713 /* PhotoApp.app */,
+				48C421502DEB077C006BB30B /* PhotoAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,10 +108,34 @@
 			);
 			name = PhotoApp;
 			packageProductDependencies = (
+				48F53F492DDC6CEF00786899 /* SnapKit */,
 			);
 			productName = PhotoApp;
 			productReference = 48B11DE42DDB0F080001A713 /* PhotoApp.app */;
 			productType = "com.apple.product-type.application";
+		};
+		48C4214F2DEB077C006BB30B /* PhotoAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48C421562DEB077D006BB30B /* Build configuration list for PBXNativeTarget "PhotoAppTests" */;
+			buildPhases = (
+				48C4214C2DEB077C006BB30B /* Sources */,
+				48C4214D2DEB077C006BB30B /* Frameworks */,
+				48C4214E2DEB077C006BB30B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				48C421582DEB09AA006BB30B /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				48C421512DEB077D006BB30B /* PhotoAppTests */,
+			);
+			name = PhotoAppTests;
+			packageProductDependencies = (
+			);
+			productName = PhotoAppTests;
+			productReference = 48C421502DEB077C006BB30B /* PhotoAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -96,6 +150,10 @@
 					48B11DE32DDB0F080001A713 = {
 						CreatedOnToolsVersion = 16.2;
 					};
+					48C4214F2DEB077C006BB30B = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 48B11DE32DDB0F080001A713;
+					};
 				};
 			};
 			buildConfigurationList = 48B11DDF2DDB0F080001A713 /* Build configuration list for PBXProject "PhotoApp" */;
@@ -107,18 +165,29 @@
 			);
 			mainGroup = 48B11DDB2DDB0F080001A713;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				48F53F482DDC6CEF00786899 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 48B11DE52DDB0F080001A713 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				48B11DE32DDB0F080001A713 /* PhotoApp */,
+				48C4214F2DEB077C006BB30B /* PhotoAppTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		48B11DE22DDB0F080001A713 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48C4214E2DEB077C006BB30B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +204,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		48C4214C2DEB077C006BB30B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		48C421582DEB09AA006BB30B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48B11DE32DDB0F080001A713 /* PhotoApp */;
+			targetProxy = 48C421572DEB09AA006BB30B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		48B11DF82DDB0F0A0001A713 /* Debug */ = {
@@ -149,7 +233,7 @@
 				INFOPLIST_FILE = PhotoApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -180,7 +264,7 @@
 				INFOPLIST_FILE = PhotoApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -319,6 +403,48 @@
 			};
 			name = Release;
 		};
+		48C421542DEB077D006BB30B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = utkina.PhotoAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PhotoApp";
+				WATCHOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Debug;
+		};
+		48C421552DEB077D006BB30B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = utkina.PhotoAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PhotoApp";
+				WATCHOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -340,7 +466,35 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		48C421562DEB077D006BB30B /* Build configuration list for PBXNativeTarget "PhotoAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48C421542DEB077D006BB30B /* Debug */,
+				48C421552DEB077D006BB30B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		48F53F482DDC6CEF00786899 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		48F53F492DDC6CEF00786899 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48F53F482DDC6CEF00786899 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 48B11DDC2DDB0F080001A713 /* Project object */;
 }
