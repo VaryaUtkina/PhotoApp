@@ -106,7 +106,7 @@ final class PhotoDetailsViewController: UIViewController {
         self.photoInfo = photoInfo
         self.networkManager = networkManager
         
-        shadowView.layer.shadowColor = Color.color(fromHex: photoInfo.color).cgColor
+        shadowView.layer.shadowColor = CGColor.fromHex(photoInfo.color)
         likeLabel.text = "\(photoInfo.likes) likes"
         likeIcon.tintColor = .red
         nameLabel.text = "Photographer: \(photoInfo.user.name)"
