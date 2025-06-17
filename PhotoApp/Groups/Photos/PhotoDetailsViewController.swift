@@ -16,7 +16,7 @@ final class PhotoDetailsViewController: UIViewController {
         static var likeTopInset: CGFloat { 16 }
         static var horizontalInset: CGFloat { 16 }
         static var stackSpacing: CGFloat { 4 }
-        static var photoHightToWidthRatio: CGFloat { 1 / 3 }
+        static var photoHightToWidthDivider: CGFloat { 3 }
         static var likeIconSize: CGSize { CGSize(width: 20, height: 20) }
         static var cornerRadius: CGFloat { 20 }
         static var shadowSize: CGSize { CGSize(width: 10, height: 10) }
@@ -170,11 +170,12 @@ final class PhotoDetailsViewController: UIViewController {
     // MARK: - Layout
     private func setupConstraints() {
         let photoWidth = UIScreen.main.bounds.width - 2 * Drawing.horizontalInset
+        let photoHeight = ceil(photoWidth / Drawing.photoHightToWidthDivider)
         
         shadowView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(Drawing.topInset)
             make.horizontalEdges.equalToSuperview().inset(Drawing.horizontalInset)
-            make.height.equalTo(photoWidth).multipliedBy(Drawing.photoHightToWidthRatio)
+            make.height.equalTo(photoHeight)
         }
         photoView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
