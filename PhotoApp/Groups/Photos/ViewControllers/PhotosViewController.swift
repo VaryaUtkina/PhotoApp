@@ -36,44 +36,13 @@ final class PhotosViewController: UIViewController {
     }()
     
     // MARK: - Dependencies
-    private let networkManager: NetworkManager
-    
-    // MARK: - Initializers
-    init(networkManager: NetworkManager) {
-        self.networkManager = networkManager
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - Private Properties
-    private let searchQuery = "nature"
-    private var photoInfos: [UnsplashPhoto] = []
+    var presenter: PhotosPresenter!
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupConstraints()
-        fetchPhotos()
-    }
-    
-    // MARK: - Network Methods
-    private func fetchPhotos() {
-        networkManager.fetchPhotos(query:searchQuery) { [weak self] result in
-            switch result {
-            case .success(let results):
-                DispatchQueue.main.async {
-                    self?.photoInfos = results
-                    self?.photoCollectionView.reloadData()
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
+        presenter.fetchPhotos()
     }
     
     // MARK: - Setup UI
@@ -84,10 +53,7 @@ final class PhotosViewController: UIViewController {
         photoCollectionView.dataSource = self
         photoCollectionView.delegate = self
         view.addSubview(photoCollectionView)
-    }
-    
-    // MARK: - Layout
-    private func setupConstraints() {
+        
         photoCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -96,8 +62,11 @@ final class PhotosViewController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 extension PhotosViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        photoInfos.count
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        presenter.numberOfPhotos
     }
     
     func collectionView(
@@ -110,20 +79,11 @@ extension PhotosViewController: UICollectionViewDataSource {
             for: indexPath
         ) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
         
-        let photoInfo = photoInfos[indexPath.item]
         cell.startAnimating()
-        networkManager.fetchPhoto(from: photoInfo.urls.regular) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let image):
-                    cell.configure(with: image)
-                case .failure(_):
-                    let errorImage = UIImage(systemName: "photo.on.rectangle.angled")
-                    cell.configure(with: errorImage ?? UIImage())
-                }
-            }
+        presenter.fetchPhoto(for: indexPath) { image in
+            cell.stopAnimating()
+            cell.configure(with: image)
         }
-        
         return cell
     }
 }
@@ -141,13 +101,17 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     //        )
     //    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard photoInfos.indices.contains(indexPath.row) else {
-            assertionFailure()
-            return
+        presenter.getPhotoInfo(at: indexPath).map { photoInfo in
+            let detailsVC = PhotoDetailsViewController(photoInfo: photoInfo, networkManager: presenter.networkManager)
+            navigationController?.pushViewController(detailsVC, animated: true)
         }
-        let photoInfo = photoInfos[indexPath.row]
-        let detailsVC = PhotoDetailsViewController(photoInfo: photoInfo, networkManager: networkManager)
-        navigationController?.pushViewController(detailsVC, animated: true)
+    }
+}
+
+// MARK: - Methods for Presenter
+extension PhotosViewController {
+    func reloadPhotos() {
+        photoCollectionView.reloadData()
     }
 }
 

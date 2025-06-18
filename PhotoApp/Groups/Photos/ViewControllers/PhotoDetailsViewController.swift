@@ -11,7 +11,6 @@ import SnapKit
 final class PhotoDetailsViewController: UIViewController {
     
     private enum Drawing {
-        //        static var insets: UIEdgeInsets { UIEdgeInsets(top: <#T##CGFloat#>, left: <#T##CGFloat#>, bottom: <#T##CGFloat#>, right: <#T##CGFloat#>) }
         static var topInset: CGFloat { 8 }
         static var likeTopInset: CGFloat { 16 }
         static var horizontalInset: CGFloat { 16 }

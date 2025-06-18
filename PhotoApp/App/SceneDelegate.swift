@@ -16,7 +16,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let sceneWindow = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: sceneWindow)
         
-        window?.rootViewController = UINavigationController(rootViewController: PhotosViewController(networkManager: NetworkManager.shared))
+        let photosVC = PhotosViewController()
+        let presenter = PhotosPresenter(view: photosVC, networkManager: NetworkManager.shared)
+        photosVC.presenter = presenter
+        window?.rootViewController = UINavigationController(rootViewController: photosVC)
         window?.makeKeyAndVisible()
     }
 

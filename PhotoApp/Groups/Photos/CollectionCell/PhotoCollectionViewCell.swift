@@ -42,8 +42,11 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         activityIndicator.startAnimating()
     }
     
-    func configure(with photo: UIImage) {
+    func stopAnimating() {
         activityIndicator.stopAnimating()
+    }
+    
+    func configure(with photo: UIImage) {
         imageView.image = photo
     }
     
