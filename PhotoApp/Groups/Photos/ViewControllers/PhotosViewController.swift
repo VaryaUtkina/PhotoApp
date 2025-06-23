@@ -102,7 +102,9 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     //    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter.getPhotoInfo(at: indexPath).map { photoInfo in
-            let detailsVC = PhotoDetailsViewController(photoInfo: photoInfo, networkManager: presenter.networkManager)
+            let detailsVC = PhotoDetailsViewController()
+            let presenter = PhotoDetailsPresenter(view: detailsVC, networkManager: presenter.getNetworkManager(), photoInfo: photoInfo)
+            detailsVC.presenter = presenter
             navigationController?.pushViewController(detailsVC, animated: true)
         }
     }

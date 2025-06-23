@@ -95,30 +95,7 @@ final class PhotoDetailsViewController: UIViewController {
     }()
     
     // MARK: - Dependencies
-    private let networkManager: NetworkManager
-    
-    // MARK: - Private Properties
-    private let photoInfo: UnsplashPhoto
-    
-    // MARK: - Initializers
-    init(photoInfo: UnsplashPhoto, networkManager: NetworkManager) {
-        self.photoInfo = photoInfo
-        self.networkManager = networkManager
-        
-        shadowView.layer.shadowColor = CGColor.fromHex(photoInfo.color)
-        likeLabel.text = "\(photoInfo.likes) likes"
-        likeIcon.tintColor = .red
-        nameLabel.text = "Photographer: \(photoInfo.user.name)"
-        bioLabel.text = "\(photoInfo.user.bio ?? "")"
-        locationLabel.text = "Location: \(photoInfo.user.location ?? "")"
-        linkLabel.text = "\(photoInfo.user.links.html)"
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var presenter: PhotoDetailsPresenter!
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -130,7 +107,7 @@ final class PhotoDetailsViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func handleLinkTap(_ sender: UITapGestureRecognizer) {
-        if let url = URL(string: photoInfo.user.links.html) {
+        if let url = URL(string: presenter.photoInfo.user.links.html) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
@@ -138,23 +115,22 @@ final class PhotoDetailsViewController: UIViewController {
     // MARK: - Network Methods
     private func fetchFullPhoto() {
         activityIndicator.startAnimating()
-        networkManager.fetchPhoto(from: photoInfo.urls.full) { result in
-            DispatchQueue.main.async { [weak self] in
-                self?.activityIndicator.stopAnimating()
-                switch result {
-                case .success(let image):
-                    self?.photoView.image = image
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
+        presenter.fetchPhoto()
     }
     
     // MARK: - Setup UI
     private func setupUI() {
         navigationController?.navigationBar.tintColor = .black
         view.backgroundColor = Color.background
+        
+        let photoInfo = presenter.photoInfo
+        shadowView.layer.shadowColor = CGColor.fromHex(photoInfo.color)
+        likeLabel.text = "\(photoInfo.likes) likes"
+        likeIcon.tintColor = .red
+        nameLabel.text = "Photographer: \(photoInfo.user.name)"
+        bioLabel.text = "\(photoInfo.user.bio ?? "")"
+        locationLabel.text = "Location: \(photoInfo.user.location ?? "")"
+        linkLabel.text = "\(photoInfo.user.links.html)"
         
         view.addSubviews(shadowView, likeStack, userStack, linkLabel)
         shadowView.addSubview(photoView)
@@ -196,5 +172,16 @@ final class PhotoDetailsViewController: UIViewController {
             make.top.equalTo(userStack.snp.bottom).inset(-Drawing.topInset)
             make.horizontalEdges.equalToSuperview().inset(Drawing.horizontalInset)
         }
+    }
+}
+
+// MARK: - Methods for Presenter
+extension PhotoDetailsViewController {
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+    }
+    
+    func setImage(_ image: UIImage) {
+        photoView.image = image
     }
 }

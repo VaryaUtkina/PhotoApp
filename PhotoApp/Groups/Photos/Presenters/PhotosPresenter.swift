@@ -11,8 +11,8 @@ import UIKit
 final class PhotosPresenter {
     
     // MARK: - Dependencies
-    var view: PhotosViewController
-    let networkManager: NetworkManager
+    private var view: PhotosViewController
+    private let networkManager: NetworkManager
     
     // MARK: - Public Properties
     var numberOfPhotos: Int {
@@ -70,5 +70,9 @@ final class PhotosPresenter {
             return nil
         }
         return photoInfos[indexPath.item]
+    }
+    
+    func getNetworkManager() -> NetworkManager {
+        networkManager
     }
 }
