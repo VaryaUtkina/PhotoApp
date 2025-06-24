@@ -44,55 +44,34 @@ final class PhotoDetailsViewController: UIViewController {
         indicator.color = .black
         return indicator
     }()
-    private let likeStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.spacing = Drawing.stackSpacing
-        stack.distribution = .fill
-        stack.alignment = .center
-        return stack
-    }()
-    private let likeLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 17, weight: .semibold)
-        return label
-    }()
+    private let likeStack = StackFactory.makeStack(
+        style: .horizontal(
+            spacing: Drawing.stackSpacing,
+            alignment: .center
+        )
+    )
+    private let likeLabel = LabelBuilder()
+        .setFont(.systemFont(ofSize: 17, weight: .semibold))
+        .build()
     private let likeIcon = UIImageView(image: UIImage(systemName: "heart.fill"))
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
-        return label
-    }()
-    private let bioLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 12, weight: .semibold)
-        return label
-    }()
-    private let locationLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 12, weight: .semibold)
-        return label
-    }()
-    private let userStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = Drawing.stackSpacing * 2
-        stack.distribution = .fill
-        stack.alignment = .leading
-        return stack
-    }()
-    private let linkLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .systemBlue
-        label.isUserInteractionEnabled = true
-        return label
-    }()
+    private let nameLabel = LabelBuilder()
+        .setFont(.systemFont(ofSize: 15, weight: .semibold))
+        .build()
+    private let bioLabel = LabelBuilder()
+        .setNumberOfLines(0)
+        .build()
+    private let locationLabel = LabelBuilder().build()
+    private let userStack = StackFactory.makeStack(
+        style: .vertical(
+            spacing: Drawing.stackSpacing * 2,
+            alignment: .leading
+        )
+    )
+    private let linkLabel = LabelBuilder()
+        .setColor(.systemBlue)
+        .setFont(.systemFont(ofSize: 12, weight: .regular))
+        .setUserInteractionEnabled(true)
+        .build()
     
     // MARK: - Dependencies
     var presenter: PhotoDetailsPresenter!
