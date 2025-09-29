@@ -7,12 +7,61 @@
 
 import UIKit
 
+@propertyWrapper
+struct WeakObj<Obj: AnyObject> {
+    weak var obj: Obj?
+    
+    var wrappedValue: Obj {
+        get {
+            guard let obj else {
+                fatalError()
+            }
+            return obj
+        }
+        set { obj = newValue }
+    }
+    
+}
+
+final class Router {
+    private let navigation: UINavigationController
+    
+    init(navigation: UINavigationController) {
+        self.navigation = navigation
+    }
+    
+    func showHomeView(animated: Bool = true) {
+        let presenter = PhotosPresenter(networkManager: NetworkManager.shared, router: self)
+        let photosVC = PhotosViewController(presenter: presenter)
+        presenter.view = photosVC
+        navigation.pushViewController(photosVC, animated: animated)
+    }
+    
+    func showDetail(
+        for photoInfo: UnsplashPhoto,
+        networkManager: NetworkManager = .shared
+    ) {
+        let detailsVC = PhotoDetailsViewController()
+        let presenter = PhotoDetailsPresenter(view: detailsVC, networkManager: networkManager, router: self, photoInfo: photoInfo)
+        detailsVC.presenter = presenter
+        navigation.pushViewController(detailsVC, animated: true)
+
+    }
+    
+    func pop(animated: Bool = true) {
+        navigation.popViewController(animated: animated)
+    }
+}
+
 // MARK: - PhotosPresenter
 final class PhotosPresenter {
     
     // MARK: - Dependencies
-    private var view: PhotosViewController
+    @WeakObj var view: PhotosViewController
+    
+//    weak var view: PhotosViewController?
     private let networkManager: NetworkManager
+    private let router: Router
     
     // MARK: - Public Properties
     var numberOfPhotos: Int {
@@ -24,9 +73,12 @@ final class PhotosPresenter {
     private var photoInfos: [UnsplashPhoto] = []
     
     // MARK: - Initializers
-    init(view: PhotosViewController, networkManager: NetworkManager) {
-        self.view = view
+    init(
+        networkManager: NetworkManager,
+        router: Router
+    ) {
         self.networkManager = networkManager
+        self.router = router
     }
     
     // MARK: - Public Methods
@@ -36,10 +88,10 @@ final class PhotosPresenter {
             case .success(let results):
                 DispatchQueue.main.async {
                     self?.photoInfos = results
-                    self?.view.reloadPhotos()
+                    self?.view.reloadPhotos(results)
                 }
             case .failure(let error):
-                print(error)
+                Log.error(error.localizedDescription, logger: Log.networking)
             }
         }
     }
@@ -50,7 +102,9 @@ final class PhotosPresenter {
             return
         }
         let photoInfo = photoInfos[indexPath.item]
-        
+        // TODO: - size of image for information
+        Log.debug("width: \(photoInfo.width). height: \(photoInfo.height)", logger: Log.ui)
+
         networkManager.fetchPhoto(from: photoInfo.urls.regular) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -65,6 +119,7 @@ final class PhotosPresenter {
     }
     
     func getPhotoInfo(at indexPath: IndexPath) -> UnsplashPhoto? {
+        
         guard photoInfos.indices.contains(indexPath.item) else {
             assertionFailure()
             return nil
@@ -72,7 +127,27 @@ final class PhotosPresenter {
         return photoInfos[indexPath.item]
     }
     
+    func openPhotoInfo(at index: Int) {
+        photoInfos.element(at: index).map { router.showDetail(for: $0) }
+//        photoInfos.element(at: index).map { photoInfo in
+//            let detailsVC = PhotoDetailsViewController()
+//            let presenter = PhotoDetailsPresenter(view: detailsVC, networkManager: getNetworkManager(), photoInfo: photoInfo)
+//            detailsVC.presenter = presenter
+//            view.showDestination(detailsVC)
+//        }
+    }
+    
     func getNetworkManager() -> NetworkManager {
         networkManager
+    }
+}
+
+extension Array {
+    func element(at index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+    
+    subscript(safe index: Int) -> Element? {
+        element(at: index)
     }
 }

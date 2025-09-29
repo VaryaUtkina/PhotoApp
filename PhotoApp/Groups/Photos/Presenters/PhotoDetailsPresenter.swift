@@ -13,11 +13,18 @@ final class PhotoDetailsPresenter {
     var view: PhotoDetailsViewController
     let photoInfo: UnsplashPhoto
     private let networkManager: NetworkManager
+    private let router: Router
     
     // MARK: - Initializers
-    init(view: PhotoDetailsViewController, networkManager: NetworkManager, photoInfo: UnsplashPhoto) {
+    init(
+        view: PhotoDetailsViewController,
+        networkManager: NetworkManager,
+        router: Router,
+        photoInfo: UnsplashPhoto
+    ) {
         self.view = view
         self.networkManager = networkManager
+        self.router = router
         self.photoInfo = photoInfo
     }
     
@@ -30,7 +37,7 @@ final class PhotoDetailsPresenter {
                 case .success(let image):
                     self?.view.setImage(image)
                 case .failure(let error):
-                    print(error)
+                    Log.error(error.localizedDescription, logger: Log.networking)
                 }
             }
         }

@@ -36,7 +36,18 @@ final class PhotosViewController: UIViewController {
     }()
     
     // MARK: - Dependencies
-    var presenter: PhotosPresenter!
+    let presenter: PhotosPresenter
+    
+    // MARK: - Initializers
+    init(presenter: PhotosPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -90,30 +101,16 @@ extension PhotosViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension PhotosViewController: UICollectionViewDelegateFlowLayout {
-    //    func collectionView(
-    //        _ collectionView: UICollectionView,
-    //        layout collectionViewLayout: UICollectionViewLayout,
-    //        sizeForItemAt indexPath: IndexPath
-    //    ) -> CGSize {
-    //        CGSize(
-    //            width: ceil(collectionView.bounds.width / 2),
-    //            height: ceil(collectionView.bounds.width / 2)
-    //        )
-    //    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        presenter.getPhotoInfo(at: indexPath).map { photoInfo in
-            let detailsVC = PhotoDetailsViewController()
-            let presenter = PhotoDetailsPresenter(view: detailsVC, networkManager: presenter.getNetworkManager(), photoInfo: photoInfo)
-            detailsVC.presenter = presenter
-            navigationController?.pushViewController(detailsVC, animated: true)
-        }
+        presenter.openPhotoInfo(at: indexPath.item)
     }
 }
 
 // MARK: - Methods for Presenter
 extension PhotosViewController {
-    func reloadPhotos() {
-        photoCollectionView.reloadData()
+    func reloadPhotos(_ photos: [UnsplashPhoto]) {
+//        dataSource.update(photos)
+//        photoCollectionView.reloadData()
     }
 }
 

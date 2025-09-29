@@ -12,6 +12,8 @@ struct UnsplashPhotoResult: Codable {
 }
 
 struct UnsplashPhoto: Codable {
+    let width: Int
+    let height: Int
     let color: String
     let likes: Int
     let urls: UnsplashURLs

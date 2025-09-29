@@ -189,6 +189,7 @@ final class NetworkManager {
         limit: Int = 20,
         completion: @escaping ((Result<[UnsplashPhoto], NetworkError>) -> Void)
     ) {
+        Log.debug("fetchPhotos is starting", logger: Log.networking)
         let components = URLComponents.unsplash
             .photos(with: query)
             .withPage(page, size: limit)

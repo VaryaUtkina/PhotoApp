@@ -15,11 +15,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let sceneWindow = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: sceneWindow)
+        let nav = UINavigationController()
+        let router = Router(navigation: nav)
         
-        let photosVC = PhotosViewController()
-        let presenter = PhotosPresenter(view: photosVC, networkManager: NetworkManager.shared)
-        photosVC.presenter = presenter
-        window?.rootViewController = UINavigationController(rootViewController: photosVC)
+        window?.rootViewController = nav
+        router.showHomeView()
         window?.makeKeyAndVisible()
     }
 
