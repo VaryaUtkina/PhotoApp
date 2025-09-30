@@ -25,9 +25,24 @@ final class MainTabBarController: UITabBarController {
         (icon: "figure.wave", title: "Profile")
     ])
     
+    // MARK: - Dependencies
+    private let router: Router
+    
     // MARK: - Private Properties
-    private var customViewControllers: [UIViewController] = []
+    private let customViewControllers: [UIViewController]
     private var currentIndex = 0
+
+    // MARK: - Initializers
+    init(customViewControllers: [UIViewController], router: Router) {
+        self.customViewControllers = customViewControllers
+        self.router = router
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -39,18 +54,7 @@ final class MainTabBarController: UITabBarController {
 
     // MARK: - Private Methods
     private func addChildControllers() {
-        let vc1 = UINavigationController(rootViewController: TempVC())
-        
-        let markVC = TempVC()
-        markVC.view.backgroundColor = .blue.withAlphaComponent(0.5)
-        let vc2 = UINavigationController(rootViewController: markVC)
-        
-        let personVC = TempVC()
-        personVC.view.backgroundColor = .yellow.withAlphaComponent(0.8)
-        let vc3 = UINavigationController(rootViewController: personVC)
-        
-        customViewControllers = [vc1, vc2, vc3]
-        
+        tabBar.isHidden = true
         customViewControllers.forEach { viewController in
             addChild(viewController)
             viewController.view.frame = view.bounds

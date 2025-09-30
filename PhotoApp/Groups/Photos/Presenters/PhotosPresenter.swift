@@ -7,59 +7,10 @@
 
 import UIKit
 
-@propertyWrapper
-struct WeakObj<Obj: AnyObject> {
-    weak var obj: Obj?
-    
-    var wrappedValue: Obj {
-        get {
-            guard let obj else {
-                fatalError()
-            }
-            return obj
-        }
-        set { obj = newValue }
-    }
-    
-}
-
-final class Router {
-    private let navigation: UINavigationController
-    
-    init(navigation: UINavigationController) {
-        self.navigation = navigation
-    }
-    
-    func showHomeView(animated: Bool = true) {
-        let presenter = PhotosPresenter(networkManager: NetworkManager.shared, router: self)
-        let photosVC = PhotosViewController(presenter: presenter)
-        presenter.view = photosVC
-        navigation.pushViewController(photosVC, animated: animated)
-    }
-    
-    func showDetail(
-        for photoInfo: UnsplashPhoto,
-        networkManager: NetworkManager = .shared
-    ) {
-        let detailsVC = PhotoDetailsViewController()
-        let presenter = PhotoDetailsPresenter(view: detailsVC, networkManager: networkManager, router: self, photoInfo: photoInfo)
-        detailsVC.presenter = presenter
-        navigation.pushViewController(detailsVC, animated: true)
-
-    }
-    
-    func pop(animated: Bool = true) {
-        navigation.popViewController(animated: animated)
-    }
-}
-
-// MARK: - PhotosPresenter
 final class PhotosPresenter {
     
     // MARK: - Dependencies
     @WeakObj var view: PhotosViewController
-    
-//    weak var view: PhotosViewController?
     private let networkManager: NetworkManager
     private let router: Router
     
@@ -84,6 +35,7 @@ final class PhotosPresenter {
     // MARK: - Public Methods
     func fetchPhotos() {
         networkManager.fetchPhotos(query:searchQuery) { [weak self] result in
+            Log.debug("result: \(result)")
             switch result {
             case .success(let results):
                 DispatchQueue.main.async {

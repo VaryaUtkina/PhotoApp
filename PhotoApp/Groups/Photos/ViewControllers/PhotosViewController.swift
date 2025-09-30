@@ -110,7 +110,7 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
 extension PhotosViewController {
     func reloadPhotos(_ photos: [UnsplashPhoto]) {
 //        dataSource.update(photos)
-//        photoCollectionView.reloadData()
+        photoCollectionView.reloadData()
     }
 }
 
