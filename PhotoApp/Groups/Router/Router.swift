@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 @propertyWrapper
 struct WeakObj<Obj: AnyObject> {
@@ -81,5 +82,11 @@ final class Router {
     
     func pop(animated: Bool = true) {
         navigation.popViewController(animated: animated)
+    }
+    
+    func showSafari(withUrlString urlString: String, andVC vc: UIViewController) {
+        guard let url = URL(string: urlString) else { return }
+        let safariVC = SFSafariViewController(url: url)
+        vc.present(safariVC, animated: true)
     }
 }

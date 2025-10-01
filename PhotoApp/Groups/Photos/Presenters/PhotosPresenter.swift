@@ -35,7 +35,6 @@ final class PhotosPresenter {
     // MARK: - Public Methods
     func fetchPhotos() {
         networkManager.fetchPhotos(query:searchQuery) { [weak self] result in
-            Log.debug("result: \(result)")
             switch result {
             case .success(let results):
                 DispatchQueue.main.async {

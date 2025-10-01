@@ -189,7 +189,6 @@ final class NetworkManager {
         limit: Int = 20,
         completion: @escaping ((Result<[UnsplashPhoto], NetworkError>) -> Void)
     ) {
-        Log.debug("fetchPhotos is starting", logger: Log.networking)
         let components = URLComponents.unsplash
             .photos(with: query)
             .withPage(page, size: limit)
@@ -222,13 +221,7 @@ final class NetworkManager {
             completion(.failure(.invalidURL))
             return
         }
-        
-        //        if let cachedData = cache.object(forKey: NSString(string: urlString)) as Data?,
-        //           let image = UIImage(data: cachedData) {
-        //            completion(.success(image))
-        //            return
-        //        }
-        
+
         imageFetcher.dataTask(with: url) { data, response, error in
             let result = Result<Data, NetworkError>
                 .parse(data: data, response: response, error: error)

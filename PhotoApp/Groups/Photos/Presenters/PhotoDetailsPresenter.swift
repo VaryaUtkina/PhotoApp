@@ -42,4 +42,8 @@ final class PhotoDetailsPresenter {
             }
         }
     }
+    
+    func linkTapped() {
+        router.showSafari(withUrlString: photoInfo.user.links.html, andVC: view)
+    }
 }

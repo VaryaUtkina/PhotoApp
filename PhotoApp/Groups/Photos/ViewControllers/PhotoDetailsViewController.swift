@@ -41,9 +41,10 @@ final class PhotoDetailsViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func handleLinkTap(_ sender: UITapGestureRecognizer) {
-        if let url = URL(string: presenter.photoInfo.user.links.html) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+        presenter.linkTapped()
+//        if let url = URL(string: presenter.photoInfo.user.links.html) {
+//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//        }
     }
     
     // MARK: - Network Methods

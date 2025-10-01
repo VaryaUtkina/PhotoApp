@@ -22,9 +22,7 @@ final class PhotoDetailsView: UIView, PhotoDetailsViewProtocol {
         static var contentInsets: UIEdgeInsets {
             UIEdgeInsets(top: 8, left: 16, bottom: 0, right: 16)
         }
-//        static var topInset: CGFloat { 8 }
         static var likeTopInset: CGFloat { 16 }
-//        static var horizontalInset: CGFloat { 16 }
         static var stackSpacing: CGFloat { 4 }
         static var photoHightToWidthDivider: CGFloat { 3 }
         static var likeIconSize: CGSize { CGSize(width: 20, height: 20) }
@@ -50,6 +48,11 @@ final class PhotoDetailsView: UIView, PhotoDetailsViewProtocol {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
+    let linkLabel = LabelBuilder()
+        .setColor(.systemBlue)
+        .setFont(.systemFont(ofSize: 12, weight: .regular))
+        .setUserInteractionEnabled(true)
+        .build()
     private let shadowView: UIView = {
         let view = UIView()
         view.layer.shadowOpacity = 0.7
@@ -78,11 +81,6 @@ final class PhotoDetailsView: UIView, PhotoDetailsViewProtocol {
             alignment: .leading
         )
     )
-    internal let linkLabel = LabelBuilder()
-        .setColor(.systemBlue)
-        .setFont(.systemFont(ofSize: 12, weight: .regular))
-        .setUserInteractionEnabled(true)
-        .build()
     
     // MARK: - Initializers
     init() {
