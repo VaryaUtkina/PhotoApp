@@ -97,7 +97,7 @@ final class PhotoDetailsView: UIView, PhotoDetailsViewProtocol {
     // MARK: - Public Methods
     func configure(with model: UnsplashPhoto) {
         shadowView.layer.shadowColor = CGColor.fromHex(model.color)
-        likeLabel.text = "\(model.likes) likes"
+        likeLabel.text = getLikeString(from: model.likes)
         likeIcon.tintColor = .red
         nameLabel.text = "Photographer: \(model.user.name)"
         bioLabel.text = "\(model.user.bio ?? "")"
@@ -143,5 +143,17 @@ final class PhotoDetailsView: UIView, PhotoDetailsViewProtocol {
             make.top.equalTo(userStack.snp.bottom).inset(-Drawing.contentInsets.top)
             make.horizontalEdges.equalToSuperview().inset(Drawing.contentInsets)
         }
+    }
+    
+    private func getLikeString(from likes: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = " "
+        formatter.groupingSize = 3
+        
+        guard let formattedLikes = formatter.string(from: NSNumber(value: likes)) else {
+            return "\(likes) likes"
+        }
+        return  "\(formattedLikes) likes"
     }
 }

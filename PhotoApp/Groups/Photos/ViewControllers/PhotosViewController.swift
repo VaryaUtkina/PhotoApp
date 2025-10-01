@@ -94,6 +94,7 @@ extension PhotosViewController: UICollectionViewDataSource {
         presenter.fetchPhoto(for: indexPath) { image in
             cell.stopAnimating()
             cell.configure(with: image)
+            cell.configure(with: self.presenter.getLikes(for: indexPath.item))
         }
         return cell
     }

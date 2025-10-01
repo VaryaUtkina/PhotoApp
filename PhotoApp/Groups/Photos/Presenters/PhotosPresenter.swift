@@ -19,6 +19,7 @@ final class PhotosPresenter {
         photoInfos.count
     }
     
+    
     // MARK: - Private Properties
     private let searchQuery = "nature"
     private var photoInfos: [UnsplashPhoto] = []
@@ -45,6 +46,11 @@ final class PhotosPresenter {
                 Log.error(error.localizedDescription, logger: Log.networking)
             }
         }
+    }
+    
+    func getLikes(for index: Int) -> Int {
+        guard photoInfos.indices.contains(index) else { return 0 }
+        return photoInfos[index].likes
     }
     
     func fetchPhoto(for indexPath: IndexPath, completion: @escaping ((UIImage) -> Void)) {
@@ -80,12 +86,6 @@ final class PhotosPresenter {
     
     func openPhotoInfo(at index: Int) {
         photoInfos.element(at: index).map { router.showDetail(for: $0) }
-//        photoInfos.element(at: index).map { photoInfo in
-//            let detailsVC = PhotoDetailsViewController()
-//            let presenter = PhotoDetailsPresenter(view: detailsVC, networkManager: getNetworkManager(), photoInfo: photoInfo)
-//            detailsVC.presenter = presenter
-//            view.showDestination(detailsVC)
-//        }
     }
     
     func getNetworkManager() -> NetworkManager {
