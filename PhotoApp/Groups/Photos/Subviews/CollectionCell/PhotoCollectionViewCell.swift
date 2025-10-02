@@ -17,6 +17,7 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         }
         static var stackSpacing: CGFloat { 4 }
         static var likeIconSize: CGSize { CGSize(width: 14, height: 14) }
+        static var saveIconSize: CGSize { CGSize(width: 24, height: 24) }
     }
     
     // MARK: - UI Elements
@@ -42,6 +43,11 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         .setFont(.systemFont(ofSize: 12, weight: .medium))
         .build()
     private let likeIcon = UIImageView(image: UIImage(systemName: "heart.fill"))
+    private let saveIcon = UIImageView()
+    
+    // MARK: - Private Properties
+    private var isSaved = false
+    private var fileKey: String?
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -84,9 +90,27 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         likeStack.isHidden = false
     }
     
+    // MARK: - Actions
+    @objc private func savePhoto() {
+        isSaved.toggle()
+        saveIcon.tintColor = isSaved
+        ? .white.withAlphaComponent(0.8)
+        : .white.withAlphaComponent(0.3)
+        
+        if isSaved {
+            imageView.image.map { fileKey = ImageStorageManager.shared.save(image: $0) }
+            fileKey.map { UserDefaultsManager.shared.addImage(fileKey: $0) }
+            return
+        }
+        fileKey.map {
+            ImageStorageManager.shared.deleteImage(forKey: $0)
+            UserDefaultsManager.shared.removeImage(fileKey: $0)
+        }
+    }
+    
     // MARK: - Setup UI
     private func setupViews() {
-        contentView.addSubviews(imageView, likeStack)
+        contentView.addSubviews(imageView, likeStack, saveIcon)
         likeStack.addArrangedSubviews(likeIcon, likeLabel)
         contentView.addSubview(activityIndicator)
         
@@ -95,6 +119,18 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         likeStack.layer.cornerRadius = 6
         likeStack.clipsToBounds = true
         likeIcon.tintColor = .red
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(savePhoto))
+        saveIcon.isUserInteractionEnabled = true
+        saveIcon.addGestureRecognizer(tap)
+        
+        saveIcon.image = UIImage(systemName: "star.circle")
+        saveIcon.backgroundColor = .black.withAlphaComponent(0.5)
+        saveIcon.layer.cornerRadius = Drawing.saveIconSize.height / 2
+        saveIcon.clipsToBounds = true
+        saveIcon.tintColor = isSaved
+        ? .white
+        : .white.withAlphaComponent(0.3)
         
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -107,6 +143,11 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         }
         likeIcon.snp.makeConstraints { make in
             make.size.equalTo(Drawing.likeIconSize)
+        }
+        saveIcon.snp.makeConstraints { make in
+            make.size.equalTo(Drawing.saveIconSize)
+            make.trailing.equalToSuperview().inset(Drawing.likeInsets.left)
+            make.bottom.equalToSuperview().inset(Drawing.likeInsets.top)
         }
     }
 }

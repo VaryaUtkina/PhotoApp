@@ -18,6 +18,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let nav = UINavigationController()
         let router = Router(navigation: nav)
         
+        if UserDefaultsManager.shared.getUser() == nil {
+            UserDefaultsManager.shared.createUser()
+        }
+        
         window?.rootViewController = nav
         router.showTabBar()
         window?.makeKeyAndVisible()
