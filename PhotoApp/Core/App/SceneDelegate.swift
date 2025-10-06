@@ -16,6 +16,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let sceneWindow = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: sceneWindow)
         let nav = UINavigationController()
+        nav.navigationBar.isHidden = true
         let router = Router(navigation: nav)
         
         if UserDefaultsManager.shared.getUser() == nil {

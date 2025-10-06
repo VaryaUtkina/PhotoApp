@@ -15,6 +15,7 @@ final class PhotosViewController: UIViewController {
     }
     
     // MARK: - UI Elements
+    private let navBarView = NavBarView()
     private let photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -56,17 +57,27 @@ final class PhotosViewController: UIViewController {
         presenter.fetchPhotos()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navBarView.setTitle("Photos")
+    }
+    
     // MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = Color.background
         title = "Photos"
         
+        navBarView.showBackButton(true)
+        photoCollectionView.contentInset.top = navBarView.height
         photoCollectionView.dataSource = self
         photoCollectionView.delegate = self
-        view.addSubview(photoCollectionView)
+        view.addSubviews(photoCollectionView, navBarView)
         
+        navBarView.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+        }
         photoCollectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.horizontalEdges.bottom.equalToSuperview()
         }
     }
 }

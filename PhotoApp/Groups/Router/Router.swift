@@ -39,6 +39,11 @@ final class AppFactory {
         tempVC.view.backgroundColor = color.withAlphaComponent(0.5)
         return tempVC
     }
+    
+    func makeSavedVC() -> UIViewController {
+        let savedVC = SavedViewController()
+        return savedVC
+    }
 }
 
 final class Router {
@@ -51,7 +56,7 @@ final class Router {
     
     func showTabBar() {
         let photosVC = appFactory.makePhotosVC(router: self)
-        let markVC = appFactory.makeTempVC(withColor: .blue)
+        let markVC = appFactory.makeSavedVC()
         let personVC = appFactory.makeTempVC(withColor: .yellow)
         
         let viewControllers = [photosVC, markVC, personVC]

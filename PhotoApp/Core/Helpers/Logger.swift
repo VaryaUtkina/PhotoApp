@@ -38,7 +38,7 @@ enum Log {
     
     static var isGeneralEnabled = true
     static var isNetworkingEnabled = true
-    static var isUIEnabled = false
+    static var isUIEnabled = true
     
     struct TaggedLogger {
         let logger: Logger
