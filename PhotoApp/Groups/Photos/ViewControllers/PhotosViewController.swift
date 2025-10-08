@@ -17,14 +17,12 @@ final class PhotosViewController: UIViewController {
     // MARK: - UI Elements
     private let navBarView = NavBarView()
     private let photoCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = Drawing.photoSpacing
-        layout.minimumInteritemSpacing = Drawing.photoSpacing
-        
         let cellSide = ceil((UIScreen.main.bounds.width - Drawing.photoSpacing) / 2)
-        layout.itemSize = CGSize(width: cellSide, height: cellSide)
-        
+        let layout = UICollectionViewFlowLayout.createLayout(
+            lineSpacing: Drawing.photoSpacing,
+            interItemSpacing: Drawing.photoSpacing,
+            itemSize: CGSize(width: cellSide, height: cellSide)
+        )
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.register(
             PhotoCollectionViewCell.self,
@@ -37,7 +35,7 @@ final class PhotosViewController: UIViewController {
     }()
     
     // MARK: - Dependencies
-    let presenter: PhotosPresenter
+    private let presenter: PhotosPresenter
     
     // MARK: - Initializers
     init(presenter: PhotosPresenter) {
@@ -67,7 +65,6 @@ final class PhotosViewController: UIViewController {
         view.backgroundColor = Color.background
         title = "Photos"
         
-        navBarView.showBackButton(true)
         photoCollectionView.contentInset.top = navBarView.height
         photoCollectionView.dataSource = self
         photoCollectionView.delegate = self
@@ -125,4 +122,5 @@ extension PhotosViewController {
         photoCollectionView.reloadData()
     }
 }
+
 
