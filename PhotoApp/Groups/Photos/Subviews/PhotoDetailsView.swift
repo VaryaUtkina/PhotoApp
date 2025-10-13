@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 protocol PhotoDetailsViewProtocol: UIView {
+    var navBarView: NavBarView { get }
     var linkLabel: UILabel { get }
     var activityIndicator: UIActivityIndicatorView { get }
     var photoView: UIImageView { get }
@@ -22,6 +23,7 @@ final class PhotoDetailsView: UIView, PhotoDetailsViewProtocol {
         static var contentInsets: UIEdgeInsets {
             UIEdgeInsets(top: 8, left: 16, bottom: 0, right: 16)
         }
+        static var photoTopInset: CGFloat { 16 }
         static var likeTopInset: CGFloat { 16 }
         static var stackSpacing: CGFloat { 4 }
         static var photoHightToWidthDivider: CGFloat { 3 }
@@ -31,6 +33,7 @@ final class PhotoDetailsView: UIView, PhotoDetailsViewProtocol {
     }
     
     // MARK: - UI Elements
+    let navBarView = NavBarView()
     let likeLabel = LabelBuilder()
         .setFont(.systemFont(ofSize: 17, weight: .semibold))
         .build()
@@ -107,7 +110,7 @@ final class PhotoDetailsView: UIView, PhotoDetailsViewProtocol {
     
     // MARK: - Setup UI
     private func setupUI() {
-        addSubviews(shadowView, likeStack, userStack, linkLabel)
+        addSubviews(navBarView, shadowView, likeStack, userStack, linkLabel)
         shadowView.addSubview(photoView)
         photoView.addSubview(activityIndicator)
         likeStack.addArrangedSubviews(likeIcon, likeLabel)
@@ -117,8 +120,11 @@ final class PhotoDetailsView: UIView, PhotoDetailsViewProtocol {
     private func setupConstraints() {
         let photoHeight = ceil(UIScreen.main.bounds.height / Drawing.photoHightToWidthDivider)
         
+        navBarView.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+        }
         shadowView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(Drawing.contentInsets.top)
+            make.top.equalTo(navBarView.snp.bottom).offset(Drawing.photoTopInset)
             make.horizontalEdges.equalToSuperview().inset(Drawing.contentInsets)
             make.height.equalTo(photoHeight)
         }

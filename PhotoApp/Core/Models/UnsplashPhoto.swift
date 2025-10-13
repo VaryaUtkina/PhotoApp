@@ -9,6 +9,28 @@ import Foundation
 
 struct UnsplashPhotoResult: Codable {
     let results: [UnsplashPhoto]
+    
+    static func getPhotoResults() -> [UnsplashPhoto] {
+        (0..<10).map { i in
+            UnsplashPhotoResult.getModel(with: i + 1)
+        }
+    }
+    
+    static func getModel(with number: Int) -> UnsplashPhoto {
+        UnsplashPhoto(
+            width: 0,
+            height: 0,
+            color: "#000000",
+            likes: 1000,
+            urls: UnsplashURLs(full: "", regular: ""),
+            user: UnsplashUser(
+                location: "Brazil",
+                bio: "This is model #\(number) for testing UI and navigation",
+                name: "John Dow",
+                links: UnsplashLinks(html: "")
+            )
+        )
+    }
 }
 
 struct UnsplashPhoto: Codable {

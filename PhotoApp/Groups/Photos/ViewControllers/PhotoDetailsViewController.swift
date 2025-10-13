@@ -39,6 +39,12 @@ final class PhotoDetailsViewController: UIViewController {
         fetchFullPhoto()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        photoDetailsView.navBarView.setTitle("Photos")
+        photoDetailsView.navBarView.showBackButton(true)
+    }
+    
     // MARK: - Actions
     @objc private func handleLinkTap(_ sender: UITapGestureRecognizer) {
         presenter.linkTapped()
@@ -54,6 +60,8 @@ final class PhotoDetailsViewController: UIViewController {
     private func setupUI() {
         navigationController?.navigationBar.tintColor = .black
         view.backgroundColor = Color.background
+        
+        photoDetailsView.navBarView.action = presenter.backButtonTapped
         
         let photoInfo = presenter.photoInfo
         photoDetailsView.configure(with: photoInfo)

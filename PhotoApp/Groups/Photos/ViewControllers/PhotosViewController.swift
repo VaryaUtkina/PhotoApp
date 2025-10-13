@@ -60,12 +60,17 @@ final class PhotosViewController: UIViewController {
         navBarView.setTitle("Photos")
     }
     
+    // MARK: - Override Methods
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        photoCollectionView.contentInset.top = navBarView.height - view.safeAreaInsets.top
+    }
+    
     // MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = Color.background
         title = "Photos"
         
-        photoCollectionView.contentInset.top = navBarView.height
         photoCollectionView.dataSource = self
         photoCollectionView.delegate = self
         view.addSubviews(photoCollectionView, navBarView)

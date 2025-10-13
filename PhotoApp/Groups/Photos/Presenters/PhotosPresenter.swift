@@ -35,16 +35,22 @@ final class PhotosPresenter {
     
     // MARK: - Public Methods
     func fetchPhotos() {
-        networkManager.fetchPhotos(query:searchQuery) { [weak self] result in
-            switch result {
-            case .success(let results):
-                DispatchQueue.main.async {
-                    self?.photoInfos = results
-                    self?.view.reloadPhotos(results)
-                }
-            case .failure(let error):
-                Log.error(error.localizedDescription, logger: Log.networking)
-            }
+        // TODO: - Network is not working
+//        networkManager.fetchPhotos(query:searchQuery) { [weak self] result in
+//            switch result {
+//            case .success(let results):
+//                DispatchQueue.main.async {
+//                    self?.photoInfos = results
+//                    self?.view.reloadPhotos(results)
+//                }
+//            case .failure(let error):
+//                Log.error(error.localizedDescription, logger: Log.networking)
+//            }
+//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            let results = UnsplashPhotoResult.getPhotoResults()
+            self?.photoInfos = results
+            self?.view.reloadPhotos(results)
         }
     }
     
@@ -59,19 +65,21 @@ final class PhotosPresenter {
             return
         }
         let photoInfo = photoInfos[indexPath.item]
-        // TODO: - size of image for information
-        Log.debug("width: \(photoInfo.width). height: \(photoInfo.height)", logger: Log.ui)
-
-        networkManager.fetchPhoto(from: photoInfo.urls.regular) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let image):
-                    completion(image)
-                case .failure(_):
-                    let errorImage = UIImage(systemName: "photo.on.rectangle.angled")
-                    completion(errorImage ?? UIImage())
-                }
-            }
+        // TODO: - Network is not working
+//        networkManager.fetchPhoto(from: photoInfo.urls.regular) { result in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let image):
+//                    completion(image)
+//                case .failure(_):
+//                    let errorImage = UIImage(systemName: "photo.on.rectangle.angled")
+//                    completion(errorImage ?? UIImage())
+//                }
+//            }
+//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            guard let result = UIImage(named: "tempImage") else { return }
+            completion(result)
         }
     }
     

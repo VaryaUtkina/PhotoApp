@@ -54,11 +54,13 @@ final class NavBarView: UIView {
         )?.withRenderingMode(.alwaysTemplate)
         config.baseForegroundColor = .systemPink.withAlphaComponent(0.8)
         button.configuration = config
+        button.isHidden = true
         return button
     }()
-
+    
     // MARK: - Public Properties
     let height: CGFloat = 115
+    var action: (() -> Void)?
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -82,7 +84,7 @@ final class NavBarView: UIView {
     
     // MARK: - Actions
     @objc private func backButtonTapped() {
-        Log.debug("backButtonTapped", logger: Log.ui)
+        action?()
     }
 }
 

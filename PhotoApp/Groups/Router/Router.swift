@@ -56,10 +56,10 @@ final class Router {
     
     func showTabBar() {
         let photosVC = appFactory.makePhotosVC(router: self)
-        let markVC = appFactory.makeSavedVC()
+        let savedVC = appFactory.makeSavedVC()
         let personVC = appFactory.makeTempVC(withColor: .yellow)
         
-        let viewControllers = [photosVC, markVC, personVC]
+        let viewControllers = [photosVC, savedVC, personVC]
         
         
         let tabBarVC = MainTabBarController(
